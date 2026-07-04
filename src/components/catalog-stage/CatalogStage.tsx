@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 
 import {
-  getFragrancesByLine,
   getLineById,
+  getPrimaryFragrancesByEntry,
   ommiFragrances,
   ommiLines,
 } from '../../data/ommiCatalog'
@@ -28,7 +28,7 @@ type StageStyle = React.CSSProperties & {
 }
 
 const firstFragranceIdForLine = (lineId: OmmiLineId) =>
-  getFragrancesByLine(lineId)[0]?.id ?? null
+  getPrimaryFragrancesByEntry(lineId)[0]?.id ?? null
 
 export function CatalogStage({ initialLineId = 'firma' }: CatalogStageProps) {
   const [activeLineId, setActiveLineId] = useState<OmmiLineId>(initialLineId)
@@ -64,8 +64,8 @@ export function CatalogStage({ initialLineId = 'firma' }: CatalogStageProps) {
   const focusFragrance = (fragrance: OmmiFragrance) => {
     setActiveFragranceId(fragrance.id)
 
-    if (fragrance.lineId !== activeLineId) {
-      setActiveLineId(fragrance.lineId)
+    if (fragrance.primaryEntryId !== activeLineId) {
+      setActiveLineId(fragrance.primaryEntryId)
       setIsBottleBackVisible(false)
     }
   }

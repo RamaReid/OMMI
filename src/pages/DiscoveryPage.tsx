@@ -1,9 +1,9 @@
 import { Link } from 'react-router'
 
-import { getFragrancesByLine } from '../data/ommiCatalog'
+import { getFragrancesByEntry } from '../data/ommiCatalog'
 
 export function DiscoveryPage() {
-  const sets = getFragrancesByLine('discovery')
+  const sets = getFragrancesByEntry('discovery')
 
   return (
     <main className="placeholder-page">

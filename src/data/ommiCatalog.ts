@@ -7,8 +7,12 @@ export type OmmiLineId =
   | 'mixto'
   | 'discovery'
 
+export type OmmiEntryId = OmmiLineId
+
+export type OmmiAudience = 'masculino' | 'femenino' | 'unisex'
+
 export type OmmiLine = {
-  id: OmmiLineId
+  id: OmmiEntryId
   name: string
   slug: string
   shortDescriptor: string
@@ -32,9 +36,12 @@ export type OmmiLine = {
   assets: {
     bottleFront: string
     bottleBack: string
+    bottleLeft: string
+    bottleRight: string
+    boxHint: string
+    lineTexture: string
     bottleThreeQuarterLeft?: string
     bottleThreeQuarterRight?: string
-    boxHint: string
     backgroundTexture?: string
   }
 }
@@ -42,7 +49,10 @@ export type OmmiLine = {
 export type OmmiFragrance = {
   id: string
   number: string
-  lineId: OmmiLineId
+  lineId: OmmiEntryId
+  primaryEntryId: OmmiEntryId
+  entryIds: OmmiEntryId[]
+  audience: OmmiAudience
   slug: string
   family: string
   elements: string[]
@@ -53,8 +63,26 @@ export type OmmiFragrance = {
   }
 }
 
-const lineAssetPath = (lineId: OmmiLineId, fileName: string) =>
-  `/ommi-assets/lines/${lineId}/${fileName}`
+const lineAssetPath = (entryId: OmmiEntryId, fileName: string) =>
+  `/ommi-assets/lines/${entryId}/${fileName}`
+
+const buildLineAssets = (entryId: OmmiEntryId): OmmiLine['assets'] => {
+  const bottleLeft = lineAssetPath(entryId, 'bottle-left.webp')
+  const bottleRight = lineAssetPath(entryId, 'bottle-right.webp')
+  const lineTexture = lineAssetPath(entryId, 'line-texture.webp')
+
+  return {
+    bottleFront: lineAssetPath(entryId, 'bottle-front.webp'),
+    bottleBack: lineAssetPath(entryId, 'bottle-back.webp'),
+    bottleLeft,
+    bottleRight,
+    boxHint: lineAssetPath(entryId, 'box-hint.webp'),
+    lineTexture,
+    bottleThreeQuarterLeft: bottleLeft,
+    bottleThreeQuarterRight: bottleRight,
+    backgroundTexture: lineTexture,
+  }
+}
 
 export const ommiLines: OmmiLine[] = [
   {
@@ -72,14 +100,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#53431e',
     },
     labelShape: 'arc',
-    assets: {
-      bottleFront: lineAssetPath('dia', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('dia', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('dia', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('dia', 'bottle-right.webp'),
-      boxHint: lineAssetPath('dia', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('dia', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('dia'),
   },
   {
     id: 'noche',
@@ -96,14 +117,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#070507',
     },
     labelShape: 'diagonal',
-    assets: {
-      bottleFront: lineAssetPath('noche', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('noche', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('noche', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('noche', 'bottle-right.webp'),
-      boxHint: lineAssetPath('noche', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('noche', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('noche'),
   },
   {
     id: 'piel',
@@ -120,14 +134,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#3a2c28',
     },
     labelShape: 'capsule',
-    assets: {
-      bottleFront: lineAssetPath('piel', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('piel', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('piel', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('piel', 'bottle-right.webp'),
-      boxHint: lineAssetPath('piel', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('piel', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('piel'),
   },
   {
     id: 'firma',
@@ -144,14 +151,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#06100e',
     },
     labelShape: 'seal',
-    assets: {
-      bottleFront: lineAssetPath('firma', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('firma', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('firma', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('firma', 'bottle-right.webp'),
-      boxHint: lineAssetPath('firma', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('firma', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('firma'),
   },
   {
     id: 'regalo',
@@ -168,14 +168,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#4f2a3a',
     },
     labelShape: 'ribbon',
-    assets: {
-      bottleFront: lineAssetPath('regalo', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('regalo', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('regalo', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('regalo', 'bottle-right.webp'),
-      boxHint: lineAssetPath('regalo', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('regalo', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('regalo'),
   },
   {
     id: 'mixto',
@@ -192,14 +185,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#07100b',
     },
     labelShape: 'split',
-    assets: {
-      bottleFront: lineAssetPath('mixto', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('mixto', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('mixto', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('mixto', 'bottle-right.webp'),
-      boxHint: lineAssetPath('mixto', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('mixto', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('mixto'),
   },
   {
     id: 'discovery',
@@ -216,186 +202,239 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#05060a',
     },
     labelShape: 'grid',
-    assets: {
-      bottleFront: lineAssetPath('discovery', 'bottle-front.webp'),
-      bottleBack: lineAssetPath('discovery', 'bottle-back.webp'),
-      bottleThreeQuarterLeft: lineAssetPath('discovery', 'bottle-left.webp'),
-      bottleThreeQuarterRight: lineAssetPath('discovery', 'bottle-right.webp'),
-      boxHint: lineAssetPath('discovery', 'box-hint.webp'),
-      backgroundTexture: lineAssetPath('discovery', 'line-texture.webp'),
-    },
+    assets: buildLineAssets('discovery'),
   },
 ]
 
+export const ommiEntries = ommiLines
+
+const fragrance = (
+  fragranceData: Omit<OmmiFragrance, 'lineId' | 'entryIds'> & {
+    entryIds?: OmmiEntryId[]
+  },
+): OmmiFragrance => ({
+  ...fragranceData,
+  lineId: fragranceData.primaryEntryId,
+  entryIds: fragranceData.entryIds ?? [fragranceData.primaryEntryId],
+})
+
 export const ommiFragrances: OmmiFragrance[] = [
-  {
+  fragrance({
     id: 'n12-dia-citrico-verde',
     number: '12',
-    lineId: 'dia',
+    primaryEntryId: 'dia',
+    entryIds: ['dia', 'mixto'],
+    audience: 'unisex',
     slug: 'n12-citrico-verde',
     family: 'Cítrico verde',
     elements: ['lima', 'té blanco', 'cedro claro'],
     intensity: 'baja',
     asset: { decantHorizontal: '/ommi-assets/decants/n12-dia-citrico-verde.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n18-dia-floral-limpio',
     number: '18',
-    lineId: 'dia',
+    primaryEntryId: 'dia',
+    entryIds: ['dia', 'regalo'],
+    audience: 'femenino',
     slug: 'n18-floral-limpio',
     family: 'Floral limpio',
     elements: ['neroli', 'jazmín suave', 'almizcle'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n18-dia-floral-limpio.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n44-noche-dulce-especiado',
     number: '44',
-    lineId: 'noche',
+    primaryEntryId: 'noche',
+    entryIds: ['noche', 'firma'],
+    audience: 'masculino',
     slug: 'n44-dulce-especiado',
     family: 'Dulce especiado',
     elements: ['cardamomo', 'cacao', 'ámbar'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n44-noche-dulce-especiado.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n57-noche-cuero-amaderado',
     number: '57',
-    lineId: 'noche',
+    primaryEntryId: 'noche',
+    entryIds: ['noche', 'mixto'],
+    audience: 'masculino',
     slug: 'n57-cuero-amaderado',
     family: 'Cuero amaderado',
     elements: ['cuero', 'pachuli', 'haba tonka'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n57-noche-cuero-amaderado.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n23-piel-almizcle-cremoso',
     number: '23',
-    lineId: 'piel',
+    primaryEntryId: 'piel',
+    entryIds: ['piel', 'dia'],
+    audience: 'unisex',
     slug: 'n23-almizcle-cremoso',
     family: 'Almizcle cremoso',
     elements: ['iris', 'almizcle', 'sándalo'],
     intensity: 'baja',
     asset: { decantHorizontal: '/ommi-assets/decants/n23-piel-almizcle-cremoso.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n31-piel-te-suave',
     number: '31',
-    lineId: 'piel',
+    primaryEntryId: 'piel',
+    audience: 'femenino',
     slug: 'n31-te-suave',
     family: 'Té suave',
     elements: ['té verde', 'violeta', 'madera blanca'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n31-piel-te-suave.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n81-firma-ambarado-luminoso',
     number: '81',
-    lineId: 'firma',
+    primaryEntryId: 'firma',
+    entryIds: ['firma', 'noche'],
+    audience: 'unisex',
     slug: 'n81-ambarado-luminoso',
     family: 'Ambarado luminoso',
     elements: ['ámbar', 'vainilla', 'resinas'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n81-firma-ambarado-luminoso.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n40-firma-aromatico-amaderado',
     number: '40',
-    lineId: 'firma',
+    primaryEntryId: 'firma',
+    entryIds: ['firma', 'mixto'],
+    audience: 'masculino',
     slug: 'n40-aromatico-amaderado',
     family: 'Aromático amaderado',
     elements: ['bergamota', 'salvia', 'maderas pulidas'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n40-firma-aromatico-amaderado.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n06-regalo-frutal-suave',
     number: '06',
-    lineId: 'regalo',
+    primaryEntryId: 'regalo',
+    audience: 'femenino',
     slug: 'n06-frutal-suave',
     family: 'Frutal suave',
     elements: ['pera', 'peonía', 'vainilla ligera'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n06-regalo-frutal-suave.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n72-regalo-floral-redondo',
     number: '72',
-    lineId: 'regalo',
+    primaryEntryId: 'regalo',
+    entryIds: ['regalo', 'piel'],
+    audience: 'femenino',
     slug: 'n72-floral-redondo',
     family: 'Floral redondo',
     elements: ['flores blancas', 'durazno', 'almizcle'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n72-regalo-floral-redondo.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n33-mixto-verde-mineral',
     number: '33',
-    lineId: 'mixto',
+    primaryEntryId: 'mixto',
+    entryIds: ['mixto', 'dia'],
+    audience: 'unisex',
     slug: 'n33-verde-mineral',
     family: 'Verde mineral',
     elements: ['pimienta rosa', 'hojas verdes', 'cedro'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n33-mixto-verde-mineral.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'n68-mixto-especiado-seco',
     number: '68',
-    lineId: 'mixto',
+    primaryEntryId: 'mixto',
+    entryIds: ['mixto', 'noche'],
+    audience: 'masculino',
     slug: 'n68-especiado-seco',
     family: 'Especiado seco',
     elements: ['jengibre', 'vetiver', 'madera seca'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n68-mixto-especiado-seco.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'set-discovery-inicial',
     number: '01',
-    lineId: 'discovery',
+    primaryEntryId: 'discovery',
+    audience: 'unisex',
     slug: 'set-inicial',
     family: 'Set inicial',
     elements: ['día', 'piel', 'firma'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/set-discovery-inicial.webp' },
-  },
-  {
+  }),
+  fragrance({
     id: 'set-discovery-intenso',
     number: '02',
-    lineId: 'discovery',
+    primaryEntryId: 'discovery',
+    audience: 'unisex',
     slug: 'set-intenso',
     family: 'Set intenso',
     elements: ['noche', 'firma', 'mixto'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/set-discovery-intenso.webp' },
-  },
+  }),
 ]
 
-export const getLineById = (lineId: OmmiLineId) => {
-  const line = ommiLines.find((candidate) => candidate.id === lineId)
+export const getEntryById = (entryId: OmmiEntryId) => {
+  const entry = ommiEntries.find((candidate) => candidate.id === entryId)
 
-  if (!line) {
-    throw new Error(`Unknown OMMI line id: ${lineId}`)
+  if (!entry) {
+    throw new Error(`Unknown OMMI entry id: ${entryId}`)
   }
 
-  return line
+  return entry
 }
 
-export const getLineBySlug = (slug: string) =>
-  ommiLines.find((line) => line.slug === slug)
+export const getEntryBySlug = (slug: string) =>
+  ommiEntries.find((entry) => entry.slug === slug)
 
-export const getFragrancesByLine = (lineId: OmmiLineId) =>
-  ommiFragrances.filter((fragrance) => fragrance.lineId === lineId)
+export const getFragrancesByEntry = (entryId: OmmiEntryId) =>
+  ommiFragrances.filter((fragrance) => fragrance.entryIds.includes(entryId))
+
+export const getPrimaryFragrancesByEntry = (entryId: OmmiEntryId) =>
+  ommiFragrances.filter((fragrance) => fragrance.primaryEntryId === entryId)
+
+export const getFragrancesByAudience = (audience: OmmiAudience) =>
+  ommiFragrances.filter((fragrance) => fragrance.audience === audience)
+
+export const getFragrancesByEntryAndAudience = (
+  entryId: OmmiEntryId,
+  audience: OmmiAudience,
+) =>
+  ommiFragrances.filter(
+    (fragrance) =>
+      fragrance.entryIds.includes(entryId) && fragrance.audience === audience,
+  )
+
+export const getCrossListedFragrances = () =>
+  ommiFragrances.filter((fragrance) => fragrance.entryIds.length > 1)
+
+export const getLineById = getEntryById
+
+export const getLineBySlug = getEntryBySlug
+
+export const getFragrancesByLine = getFragrancesByEntry
 
 export const getFragranceBySlug = (lineSlug: string, fragranceSlug: string) => {
-  const line = getLineBySlug(lineSlug)
+  const entry = getEntryBySlug(lineSlug)
 
-  if (!line) {
+  if (!entry) {
     return undefined
   }
 
   return ommiFragrances.find(
     (fragrance) =>
-      fragrance.lineId === line.id && fragrance.slug === fragranceSlug,
+      fragrance.entryIds.includes(entry.id) && fragrance.slug === fragranceSlug,
   )
 }
 

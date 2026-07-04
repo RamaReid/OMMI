@@ -24,6 +24,10 @@ export function BottleAvatar({
   const dragStartX = useRef<number | null>(null)
   const movedDuringPointer = useRef(false)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const [frontImageFailed, setFrontImageFailed] = useState(false)
+  const [backImageFailed, setBackImageFailed] = useState(false)
+  const canShowFrontImage = Boolean(line.assets.bottleFront && !frontImageFailed)
+  const canShowBackImage = Boolean(line.assets.bottleBack && !backImageFailed)
 
   const resetDrag = () => {
     dragStartX.current = null
@@ -87,18 +91,40 @@ export function BottleAvatar({
         <span className="bottle-cap" />
         <span className="bottle-neck" />
         <span className="bottle-face bottle-front">
-          <span className="bottle-brand">OMMI</span>
-          <span className="bottle-line">{line.name}</span>
-          <span className={`bottle-label bottle-label-${line.labelShape}`} />
-          <span className="bottle-elements">
-            {line.olfactoryElements.slice(0, 3).join(' · ')}
-          </span>
+          {canShowFrontImage ? (
+            <img
+              className="bottle-image"
+              src={line.assets.bottleFront}
+              alt=""
+              onError={() => setFrontImageFailed(true)}
+            />
+          ) : (
+            <>
+              <span className="bottle-brand">OMMI</span>
+              <span className="bottle-line">{line.name}</span>
+              <span className={`bottle-label bottle-label-${line.labelShape}`} />
+              <span className="bottle-elements">
+                {line.olfactoryElements.slice(0, 3).join(' · ')}
+              </span>
+            </>
+          )}
         </span>
         <span className="bottle-face bottle-back">
-          <span className="back-title">Trazabilidad</span>
-          <span>Lote visible</span>
-          <span>Contenido</span>
-          <span>Conservación</span>
+          {canShowBackImage ? (
+            <img
+              className="bottle-image"
+              src={line.assets.bottleBack}
+              alt=""
+              onError={() => setBackImageFailed(true)}
+            />
+          ) : (
+            <>
+              <span className="back-title">Trazabilidad</span>
+              <span>Lote visible</span>
+              <span>Contenido</span>
+              <span>Conservación</span>
+            </>
+          )}
         </span>
       </span>
     </motion.button>

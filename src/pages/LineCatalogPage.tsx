@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router'
 
 import {
-  getFragrancesByLine,
+  getFragrancesByEntry,
   getLineBySlug,
   ommiLines,
 } from '../data/ommiCatalog'
@@ -22,7 +22,7 @@ export function LineCatalogPage() {
     )
   }
 
-  const fragrances = getFragrancesByLine(line.id)
+  const fragrances = getFragrancesByEntry(line.id)
 
   return (
     <main className="placeholder-page">

@@ -33,7 +33,8 @@ export function TubeRack({
   useEffect(() => {
     const targetId =
       activeFragranceId ??
-      fragrances.find((fragrance) => fragrance.lineId === activeLineId)?.id
+      fragrances.find((fragrance) => fragrance.primaryEntryId === activeLineId)
+        ?.id
 
     if (!targetId) return
 
@@ -96,10 +97,10 @@ export function TubeRack({
           >
             <span className="tube-group-label">{line.name}</span>
             {fragrances
-              .filter((fragrance) => fragrance.lineId === line.id)
+              .filter((fragrance) => fragrance.entryIds.includes(line.id))
               .map((fragrance) => {
                 const isActive = fragrance.id === activeFragranceId
-                const isSameLine = fragrance.lineId === activeLineId
+                const isSameLine = fragrance.primaryEntryId === activeLineId
 
                 return (
                   <button

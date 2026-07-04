@@ -8,8 +8,10 @@ export function FloatingHeader() {
         OMMI
       </Link>
       <nav className="header-nav" aria-label="Navegación principal">
-        <Link to="/perfumes/firma">Perfumes</Link>
+        <Link to="/perfumes">Perfumes</Link>
         <Link to="/sets/discovery">Sets</Link>
+        <Link to="/guia">Guía</Link>
+        <Link to="/confianza">Confianza</Link>
       </nav>
       <div className="header-actions">
         <Link className="icon-link" to="/sets/discovery" aria-label="Ver sets">
