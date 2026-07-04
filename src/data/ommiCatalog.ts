@@ -55,6 +55,11 @@ export type OmmiFragrance = {
   audience: OmmiAudience
   slug: string
   family: string
+  referenceName: string
+  referenceBrand: string
+  shortDescription: string
+  useCases: string[]
+  inspirationText: string
   elements: string[]
   intensity: 'baja' | 'media' | 'alta'
   asset: {
@@ -206,8 +211,6 @@ export const ommiLines: OmmiLine[] = [
   },
 ]
 
-export const ommiEntries = ommiLines
-
 const fragrance = (
   fragranceData: Omit<OmmiFragrance, 'lineId' | 'entryIds'> & {
     entryIds?: OmmiEntryId[]
@@ -227,6 +230,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'unisex',
     slug: 'n12-citrico-verde',
     family: 'Cítrico verde',
+    referenceName: 'Neroli Portofino',
+    referenceBrand: 'Tom Ford',
+    shortDescription: 'Salida limpia, cítrica y translúcida.',
+    useCases: ['día', 'trabajo', 'clima templado'],
+    inspirationText: 'Un cítrico de bordes suaves que abre sin invadir.',
     elements: ['lima', 'té blanco', 'cedro claro'],
     intensity: 'baja',
     asset: { decantHorizontal: '/ommi-assets/decants/n12-dia-citrico-verde.webp' },
@@ -239,6 +247,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'femenino',
     slug: 'n18-floral-limpio',
     family: 'Floral limpio',
+    referenceName: 'Chance Eau Tendre',
+    referenceBrand: 'Chanel',
+    shortDescription: 'Floral aireado con fondo pulcro.',
+    useCases: ['oficina', 'salidas diurnas', 'regalo'],
+    inspirationText: 'Una lectura luminosa, amable y cercana.',
     elements: ['neroli', 'jazmín suave', 'almizcle'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n18-dia-floral-limpio.webp' },
@@ -251,6 +264,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'masculino',
     slug: 'n44-dulce-especiado',
     family: 'Dulce especiado',
+    referenceName: 'Ombre Leather',
+    referenceBrand: 'Tom Ford',
+    shortDescription: 'Ámbar oscuro con pulso especiado.',
+    useCases: ['noche', 'salida', 'clima frío'],
+    inspirationText: 'Construido para sentirse denso y memorable.',
     elements: ['cardamomo', 'cacao', 'ámbar'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n44-noche-dulce-especiado.webp' },
@@ -263,6 +281,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'masculino',
     slug: 'n57-cuero-amaderado',
     family: 'Cuero amaderado',
+    referenceName: 'Tuscan Leather',
+    referenceBrand: 'Tom Ford',
+    shortDescription: 'Cuero seco con madera oscura.',
+    useCases: ['noche', 'eventos', 'invierno'],
+    inspirationText: 'Una pieza firme, con estructura y presencia.',
     elements: ['cuero', 'pachuli', 'haba tonka'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n57-noche-cuero-amaderado.webp' },
@@ -275,6 +298,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'unisex',
     slug: 'n23-almizcle-cremoso',
     family: 'Almizcle cremoso',
+    referenceName: 'Musc Ravageur',
+    referenceBrand: 'Frederic Malle',
+    shortDescription: 'Piel limpia con cremosidad discreta.',
+    useCases: ['uso diario', 'after shower', 'capas'],
+    inspirationText: 'Está pensado para quedar pegado a la piel sin ruido.',
     elements: ['iris', 'almizcle', 'sándalo'],
     intensity: 'baja',
     asset: { decantHorizontal: '/ommi-assets/decants/n23-piel-almizcle-cremoso.webp' },
@@ -286,6 +314,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'femenino',
     slug: 'n31-te-suave',
     family: 'Té suave',
+    referenceName: 'Philosykos',
+    referenceBrand: 'Diptyque',
+    shortDescription: 'Té verde, violeta y madera blanca.',
+    useCases: ['día', 'oficina', 'clima cálido'],
+    inspirationText: 'Más cercano a lo íntimo que a lo proyectivo.',
     elements: ['té verde', 'violeta', 'madera blanca'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n31-piel-te-suave.webp' },
@@ -298,6 +331,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'unisex',
     slug: 'n81-ambarado-luminoso',
     family: 'Ambarado luminoso',
+    referenceName: 'Baccarat Rouge 540',
+    referenceBrand: 'Maison Francis Kurkdjian',
+    shortDescription: 'Ámbar pulido con brillo limpio.',
+    useCases: ['firma', 'evento', 'noche'],
+    inspirationText: 'Busca una impresión reconocible, no pesada.',
     elements: ['ámbar', 'vainilla', 'resinas'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n81-firma-ambarado-luminoso.webp' },
@@ -310,6 +348,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'masculino',
     slug: 'n40-aromatico-amaderado',
     family: 'Aromático amaderado',
+    referenceName: 'Santal 33',
+    referenceBrand: 'Le Labo',
+    shortDescription: 'Aromático seco con madera pulida.',
+    useCases: ['firma', 'día', 'oficina'],
+    inspirationText: 'Una pieza de estructura limpia y persistente.',
     elements: ['bergamota', 'salvia', 'maderas pulidas'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n40-firma-aromatico-amaderado.webp' },
@@ -321,6 +364,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'femenino',
     slug: 'n06-frutal-suave',
     family: 'Frutal suave',
+    referenceName: 'Aventus for Her',
+    referenceBrand: 'Creed',
+    shortDescription: 'Fruta limpia con fondo amable.',
+    useCases: ['regalo', 'día', 'uso casual'],
+    inspirationText: 'Pensado para gustar rápido y sin fricción.',
     elements: ['pera', 'peonía', 'vainilla ligera'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n06-regalo-frutal-suave.webp' },
@@ -333,6 +381,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'femenino',
     slug: 'n72-floral-redondo',
     family: 'Floral redondo',
+    referenceName: "J'adore",
+    referenceBrand: 'Dior',
+    shortDescription: 'Floral clásico con contorno suave.',
+    useCases: ['regalo', 'celebración', 'evento diurno'],
+    inspirationText: 'Busca ser reconocible y fácil de elegir.',
     elements: ['flores blancas', 'durazno', 'almizcle'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n72-regalo-floral-redondo.webp' },
@@ -345,6 +398,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'unisex',
     slug: 'n33-verde-mineral',
     family: 'Verde mineral',
+    referenceName: "Terre d'Hermes",
+    referenceBrand: 'Hermès',
+    shortDescription: 'Verde seco con aire mineral.',
+    useCases: ['día', 'trabajo', 'media estación'],
+    inspirationText: 'Una lectura limpia de contraste y tensión.',
     elements: ['pimienta rosa', 'hojas verdes', 'cedro'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/n33-mixto-verde-mineral.webp' },
@@ -357,6 +415,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'masculino',
     slug: 'n68-especiado-seco',
     family: 'Especiado seco',
+    referenceName: 'Spicebomb',
+    referenceBrand: 'Viktor&Rolf',
+    shortDescription: 'Especiado seco con textura moderna.',
+    useCases: ['noche', 'salida', 'otoño/invierno'],
+    inspirationText: 'Construido para sostener presencia sin saturar.',
     elements: ['jengibre', 'vetiver', 'madera seca'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/n68-mixto-especiado-seco.webp' },
@@ -368,6 +431,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'unisex',
     slug: 'set-inicial',
     family: 'Set inicial',
+    referenceName: 'Discovery Set Inicio',
+    referenceBrand: 'OMMI',
+    shortDescription: 'Selección de arranque.',
+    useCases: ['exploración', 'comparación', 'primer contacto'],
+    inspirationText: 'Agrupa una entrada corta para empezar a decidir.',
     elements: ['día', 'piel', 'firma'],
     intensity: 'media',
     asset: { decantHorizontal: '/ommi-assets/decants/set-discovery-inicial.webp' },
@@ -379,6 +447,11 @@ export const ommiFragrances: OmmiFragrance[] = [
     audience: 'unisex',
     slug: 'set-intenso',
     family: 'Set intenso',
+    referenceName: 'Discovery Set Intenso',
+    referenceBrand: 'OMMI',
+    shortDescription: 'Selección para perfiles intensos.',
+    useCases: ['noche', 'comparación', 'perfil alto'],
+    inspirationText: 'Busca contrastar familias más densas.',
     elements: ['noche', 'firma', 'mixto'],
     intensity: 'alta',
     asset: { decantHorizontal: '/ommi-assets/decants/set-discovery-intenso.webp' },
@@ -386,7 +459,7 @@ export const ommiFragrances: OmmiFragrance[] = [
 ]
 
 export const getEntryById = (entryId: OmmiEntryId) => {
-  const entry = ommiEntries.find((candidate) => candidate.id === entryId)
+  const entry = ommiLines.find((candidate) => candidate.id === entryId)
 
   if (!entry) {
     throw new Error(`Unknown OMMI entry id: ${entryId}`)
@@ -396,7 +469,7 @@ export const getEntryById = (entryId: OmmiEntryId) => {
 }
 
 export const getEntryBySlug = (slug: string) =>
-  ommiEntries.find((entry) => entry.slug === slug)
+  ommiLines.find((entry) => entry.slug === slug)
 
 export const getFragrancesByEntry = (entryId: OmmiEntryId) =>
   ommiFragrances.filter((fragrance) => fragrance.entryIds.includes(entryId))
@@ -423,7 +496,7 @@ export const getLineById = getEntryById
 
 export const getLineBySlug = getEntryBySlug
 
-export const getFragrancesByLine = getFragrancesByEntry
+export const getFragrancesByLine = getPrimaryFragrancesByEntry
 
 export const getFragranceBySlug = (lineSlug: string, fragranceSlug: string) => {
   const entry = getEntryBySlug(lineSlug)
