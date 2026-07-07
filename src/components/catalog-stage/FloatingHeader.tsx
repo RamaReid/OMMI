@@ -1,26 +1,36 @@
-import { Menu, ShoppingBag } from 'lucide-react'
+import { ShoppingBag } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function FloatingHeader() {
   return (
-    <header className="floating-header">
-      <Link className="brand-mark" to="/" aria-label="OMMI home">
+    <header className="header-inner">
+      <Link className="header-logo" to="/" aria-label="OMMI home">
         OMMI
       </Link>
+
       <nav className="header-nav" aria-label="Navegación principal">
-        <Link to="/perfumes">Perfumes</Link>
-        <Link to="/sets/discovery">Sets</Link>
-        <Link to="/guia">Guía</Link>
-        <Link to="/confianza">Confianza</Link>
-      </nav>
-      <div className="header-actions">
-        <Link className="icon-link" to="/sets/discovery" aria-label="Ver sets">
-          <ShoppingBag size={18} strokeWidth={1.8} />
+        <Link className="header-nav-link" to="/guia">
+          Guía
         </Link>
-        <button className="icon-link mobile-menu" type="button" aria-label="Menú">
-          <Menu size={18} strokeWidth={1.8} />
-        </button>
-      </div>
+        <span className="header-nav-separator" aria-hidden="true">
+          ·
+        </span>
+        <Link className="header-nav-link" to="/confianza">
+          Calidad
+        </Link>
+        <span className="header-nav-separator" aria-hidden="true">
+          ·
+        </span>
+        <Link className="header-nav-link" to="/ayuda">
+          Ayuda
+        </Link>
+      </nav>
+
+      <button className="header-cart" type="button" aria-label="Carrito">
+        <ShoppingBag size={17} strokeWidth={1.8} />
+        <span className="header-cart-label">Carrito</span>
+        <span className="header-cart-count">0</span>
+      </button>
     </header>
   )
 }

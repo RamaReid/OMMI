@@ -1,27 +1,48 @@
 import { Link } from 'react-router'
 
-import { getFragrancesByEntry } from '../data/ommiCatalog'
+import { CatalogShowcaseCard } from '../components/catalog-stage/CatalogShowcaseCard'
+import { PageChrome } from '../components/layout/PageChrome'
+import {
+  discoverySetAssetPath,
+  getLineById,
+  type OmmiLineId,
+} from '../data/ommiCatalog'
+
+const discoverySetLineIds: OmmiLineId[] = ['dia', 'noche', 'piel', 'firma', 'regalo']
 
 export function DiscoveryPage() {
-  const sets = getFragrancesByEntry('discovery')
-
   return (
-    <main className="placeholder-page">
-      <Link to="/" className="back-link">
-        Volver al selector
-      </Link>
-      <span className="page-kicker">Sets</span>
-      <h1>Discovery</h1>
-      <p>Explorar, comparar y elegir con menos incertidumbre.</p>
-      <div className="placeholder-grid">
-        {sets.map((set) => (
-          <article className="placeholder-card" key={set.id}>
-            <span>Set {set.number}</span>
-            <strong>{set.family}</strong>
-            <small>{set.elements.join(' · ')}</small>
-          </article>
-        ))}
-      </div>
-    </main>
+    <PageChrome>
+      <main className="placeholder-page">
+        <Link to="/" className="back-link">
+          Volver al selector
+        </Link>
+        <span className="page-kicker">Sets</span>
+        <h1>Discovery</h1>
+        <p>Explorar, comparar y elegir con menos incertidumbre.</p>
+
+        <div className="catalog-grid discovery-set-grid">
+          {discoverySetLineIds.map((lineId) => {
+            const line = getLineById(lineId)
+            const setAsset = discoverySetAssetPath(lineId)
+
+            if (!setAsset) return null
+
+            return (
+              <CatalogShowcaseCard
+                key={line.id}
+                href={`/perfumes/${line.slug}`}
+                imageSrc={setAsset}
+                imageAlt={`Discovery Set OMMI ${line.name}`}
+                title={`Discovery Set ${line.name}`}
+                subtitle={line.shortDescriptor}
+                brandLine="Tres decants para comparar"
+                notes={line.characterWords.join(' - ')}
+              />
+            )
+          })}
+        </div>
+      </main>
+    </PageChrome>
   )
 }

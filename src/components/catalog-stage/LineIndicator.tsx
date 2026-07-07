@@ -12,18 +12,25 @@ export function LineIndicator({
   onLineChange,
 }: LineIndicatorProps) {
   return (
-    <div className="line-indicator" aria-label="Indicador de línea">
-      {lines.map((line) => (
-        <button
-          key={line.id}
-          type="button"
-          aria-label={line.name}
-          aria-pressed={line.id === activeLineId}
-          className="line-dot"
-          style={{ backgroundColor: line.palette.primary }}
-          onClick={() => onLineChange(line.id)}
-        />
-      ))}
-    </div>
+    <nav className="line-indicator" aria-label="Selector de líneas">
+      {lines.map((line) => {
+        const isActive = line.id === activeLineId
+
+        return (
+          <button
+            key={line.id}
+            type="button"
+            aria-label={line.name}
+            aria-pressed={isActive}
+            className="line-pill"
+            data-active={isActive}
+            onClick={() => onLineChange(line.id)}
+          >
+            <span className="line-pill-name">{line.name.toUpperCase()}</span>
+            <span className="line-pill-mark" aria-hidden="true" />
+          </button>
+        )
+      })}
+    </nav>
   )
 }

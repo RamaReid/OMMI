@@ -18,6 +18,7 @@ export type OmmiLine = {
   shortDescriptor: string
   olfactoryElements: string[]
   characterWords: string[]
+  bottleAsset: string
   palette: {
     base: string
     primary: string
@@ -49,43 +50,91 @@ export type OmmiLine = {
 export type OmmiFragrance = {
   id: string
   number: string
+  numericCode: number
   lineId: OmmiEntryId
   primaryEntryId: OmmiEntryId
   entryIds: OmmiEntryId[]
+  categoryIds: OmmiEntryId[]
   audience: OmmiAudience
   slug: string
   family: string
   referenceName: string
   referenceBrand: string
   shortDescription: string
+  descriptor: string
+  inspiration: string
+  notes: string
+  status: string
   useCases: string[]
   inspirationText: string
   elements: string[]
   intensity: 'baja' | 'media' | 'alta'
+  tubeAsset: string
+  bottleAsset: string
   asset: {
     decantHorizontal: string
     bottleFront?: string
   }
 }
 
-const lineAssetPath = (entryId: OmmiEntryId, fileName: string) =>
-  `/ommi-assets/lines/${entryId}/${fileName}`
+const categoryAssetPath = (entryId: OmmiEntryId) =>
+  `/ommi_bottle_carrusel/ommi_bottle_${entryId}.png`
+
+const tubeAssetPath = (number: string) => `/ommi_tubes_number/t_N${number}.png`
+
+const bottleAssetPath = (number: string) => `/ommi_bottle_number/b_N${number}.png`
+
+const lineBoxAssetPath = (entryId: OmmiEntryId) => {
+  switch (entryId) {
+    case 'dia':
+      return '/ommi_other/OMMI Dia.png'
+    case 'noche':
+      return '/ommi_other/OMMI Noche.png'
+    case 'piel':
+      return '/ommi_other/OMMi Piel.png'
+    case 'firma':
+      return '/ommi_other/OMMI Firma.png'
+    case 'regalo':
+      return '/ommi_other/OMMI Regalo.png'
+    case 'mixto':
+      return '/ommi_other/OMMI Firma.png'
+    case 'discovery':
+      return '/ommi_other/OMMI Discobery Set dia.png'
+    default:
+      return categoryAssetPath(entryId)
+  }
+}
+
+export const discoverySetAssetPath = (entryId: OmmiEntryId) => {
+  switch (entryId) {
+    case 'dia':
+      return '/ommi_other/OMMI Discobery Set dia.png'
+    case 'noche':
+      return '/ommi_other/OMMI Discobery Set Noche .png'
+    case 'piel':
+      return '/ommi_other/OMMI Discobery Set piel.png'
+    case 'firma':
+      return '/ommi_other/OMMI Discobery Set Firma (2).png'
+    case 'regalo':
+      return '/ommi_other/OMMI Discobery Set Regalo.png'
+    default:
+      return undefined
+  }
+}
 
 const buildLineAssets = (entryId: OmmiEntryId): OmmiLine['assets'] => {
-  const bottleLeft = lineAssetPath(entryId, 'bottle-left.webp')
-  const bottleRight = lineAssetPath(entryId, 'bottle-right.webp')
-  const lineTexture = lineAssetPath(entryId, 'line-texture.webp')
+  const bottleAsset = categoryAssetPath(entryId)
 
   return {
-    bottleFront: lineAssetPath(entryId, 'bottle-front.webp'),
-    bottleBack: lineAssetPath(entryId, 'bottle-back.webp'),
-    bottleLeft,
-    bottleRight,
-    boxHint: lineAssetPath(entryId, 'box-hint.webp'),
-    lineTexture,
-    bottleThreeQuarterLeft: bottleLeft,
-    bottleThreeQuarterRight: bottleRight,
-    backgroundTexture: lineTexture,
+    bottleFront: bottleAsset,
+    bottleBack: bottleAsset,
+    bottleLeft: bottleAsset,
+    bottleRight: bottleAsset,
+    boxHint: lineBoxAssetPath(entryId),
+    lineTexture: bottleAsset,
+    bottleThreeQuarterLeft: bottleAsset,
+    bottleThreeQuarterRight: bottleAsset,
+    backgroundTexture: bottleAsset,
   }
 }
 
@@ -105,6 +154,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#53431e',
     },
     labelShape: 'arc',
+    bottleAsset: categoryAssetPath('dia'),
     assets: buildLineAssets('dia'),
   },
   {
@@ -122,6 +172,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#070507',
     },
     labelShape: 'diagonal',
+    bottleAsset: categoryAssetPath('noche'),
     assets: buildLineAssets('noche'),
   },
   {
@@ -139,6 +190,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#3a2c28',
     },
     labelShape: 'capsule',
+    bottleAsset: categoryAssetPath('piel'),
     assets: buildLineAssets('piel'),
   },
   {
@@ -156,6 +208,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#06100e',
     },
     labelShape: 'seal',
+    bottleAsset: categoryAssetPath('firma'),
     assets: buildLineAssets('firma'),
   },
   {
@@ -173,6 +226,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#4f2a3a',
     },
     labelShape: 'ribbon',
+    bottleAsset: categoryAssetPath('regalo'),
     assets: buildLineAssets('regalo'),
   },
   {
@@ -190,6 +244,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#07100b',
     },
     labelShape: 'split',
+    bottleAsset: categoryAssetPath('mixto'),
     assets: buildLineAssets('mixto'),
   },
   {
@@ -207,6 +262,7 @@ export const ommiLines: OmmiLine[] = [
       shadow: '#05060a',
     },
     labelShape: 'grid',
+    bottleAsset: categoryAssetPath('discovery'),
     assets: buildLineAssets('discovery'),
   },
 ]
@@ -218,13 +274,47 @@ const buildDecantHorizontal = (
 ) => `/ommi-assets/decants/n${number}-${entryId}-${descriptor}.webp`
 
 const fragrance = (
-  fragranceData: Omit<OmmiFragrance, 'lineId' | 'entryIds'> & {
+  fragranceData: Omit<
+    OmmiFragrance,
+    | 'numericCode'
+    | 'categoryIds'
+    | 'tubeAsset'
+    | 'bottleAsset'
+    | 'descriptor'
+    | 'inspiration'
+    | 'notes'
+    | 'status'
+    | 'lineId'
+    | 'entryIds'
+    | 'asset'
+  > & {
     entryIds?: OmmiEntryId[]
+    categoryIds?: OmmiEntryId[]
+    status?: string
+    asset?: {
+      decantHorizontal: string
+      bottleFront?: string
+    }
   },
 ): OmmiFragrance => ({
   ...fragranceData,
+  numericCode: Number(fragranceData.number),
   lineId: fragranceData.primaryEntryId,
   entryIds: fragranceData.entryIds ?? [fragranceData.primaryEntryId],
+  categoryIds:
+    fragranceData.categoryIds ??
+    fragranceData.entryIds ??
+    [fragranceData.primaryEntryId],
+  tubeAsset: tubeAssetPath(fragranceData.number),
+  bottleAsset: bottleAssetPath(fragranceData.number),
+  descriptor: fragranceData.family,
+  inspiration: `${fragranceData.referenceBrand} · ${fragranceData.referenceName}`,
+  notes: fragranceData.elements.slice(0, 4).join(' · '),
+  status: fragranceData.status ?? 'Disponible',
+  asset: {
+    decantHorizontal: tubeAssetPath(fragranceData.number),
+    bottleFront: bottleAssetPath(fragranceData.number),
+  },
 })
 
 export const ommiFragrances: OmmiFragrance[] = [
@@ -710,6 +800,14 @@ export const getLineById = getEntryById
 
 export const getLineBySlug = getEntryBySlug
 
+export const ommiCategories = ommiLines
+
+export const ommiPerfumes = ommiFragrances
+
+export const getCategoryById = getLineById
+
+export const getCategoryBySlug = getLineBySlug
+
 export const getFragrancesByLine = getPrimaryFragrancesByEntry
 
 export const getFragranceBySlug = (lineSlug: string, fragranceSlug: string) => {
@@ -727,3 +825,5 @@ export const getFragranceBySlug = (lineSlug: string, fragranceSlug: string) => {
 
 export const getLineRoute = (line: OmmiLine) =>
   line.id === 'discovery' ? '/sets/discovery' : `/perfumes/${line.slug}`
+
+export const getPerfumeBySlug = getFragranceBySlug

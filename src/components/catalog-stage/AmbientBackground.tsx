@@ -7,7 +7,7 @@ type AmbientBackgroundProps = {
 }
 
 export function AmbientBackground({ line }: AmbientBackgroundProps) {
-  const texture = line.assets.lineTexture ?? line.assets.backgroundTexture
+  const texture = undefined
 
   return (
     <motion.div
@@ -15,9 +15,9 @@ export function AmbientBackground({ line }: AmbientBackgroundProps) {
       aria-hidden="true"
       className="ambient-background"
       style={texture ? { backgroundImage: `url(${texture})` } : undefined}
-      initial={{ opacity: 0.85 }}
+      initial={{ opacity: 0.72 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
+      transition={{ duration: 1.25, ease: [0.16, 0.84, 0.22, 1] }}
     >
       <div className="ambient-layer ambient-base" />
       <div className="ambient-layer ambient-halo-primary" />
